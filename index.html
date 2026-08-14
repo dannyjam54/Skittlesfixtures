@@ -291,6 +291,7 @@ Close
 
 <script>
 
+
 const fixtures = [
 ["2026-09-09","Home","Black Horse","Roaring Twenties"],
 ["2026-09-17","Away","Almondsbury Social","Ibstock"],
@@ -324,6 +325,29 @@ const fixtures = [
 let selectedIndex = null;
 let results = JSON.parse(localStorage.getItem("results") || "{}");
 
+function formatDate(dateString){
+
+    const date = new Date(dateString);
+
+    const days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ];
+
+    const dayName = days[date.getDay()];
+
+    const day = String(date.getDate()).padStart(2,"0");
+    const month = String(date.getMonth()+1).padStart(2,"0");
+    const year = date.getFullYear();
+
+    return `${dayName} ${day}/${month}/${year}`;
+}
+
 function renderFixtures(){
 
 const today = new Date();
@@ -354,7 +378,7 @@ card.className =
 card.innerHTML = `
 <div>
 <div class="opp">${f[3]}</div>
-<div class="venue">${f[0]} • ${f[2]}</div>
+<div class="venue">${formatDate(f[0])} • ${f[2]}</div>
 <div class="result ${result?.toLowerCase() || ''}">
 ${result || ''}
 </div>
@@ -377,9 +401,14 @@ fixtureList.appendChild(card);
 });
 
 if(upcoming){
+
 document.getElementById("nextFixture").innerHTML =
-`<strong>Next Fixture</strong><br>
-${upcoming[0]} vs ${upcoming[3]}`;
+`
+<strong>Next Fixture</strong><br>
+${formatDate(upcoming[0])}<br>
+vs ${upcoming[3]}
+`;
+
 }
 
 updatePoints();
@@ -437,9 +466,10 @@ text=text.toLowerCase();
 document.querySelectorAll("#fixtureList .card")
 .forEach(card=>{
 
-card.style.display=
+card.style.display =
 card.innerText.toLowerCase().includes(text)
-? "flex" : "none";
+? "flex"
+: "none";
 
 });
 
@@ -462,6 +492,7 @@ document.getElementById(page+"Page")
 }
 
 renderFixtures();
+
 
 </script>
 
