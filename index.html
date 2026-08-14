@@ -432,7 +432,22 @@ closeModal();
 renderFixtures();
 
 }
+function clearResult(){
 
+if(selectedIndex === null) return;
+
+delete results[selectedIndex];
+
+localStorage.setItem(
+    "results",
+    JSON.stringify(results)
+);
+
+closeModal();
+renderFixtures();
+
+}
+    
 function closeModal(){
 document.getElementById("modal").style.display="none";
 }
